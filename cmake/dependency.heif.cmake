@@ -4,28 +4,28 @@
 # Output target: LibHEIF
 
 
-include(${CMAKE_SOURCE_DIR}/cmake/external_project_common.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/external_project_common.cmake)
 
-include(${CMAKE_SOURCE_DIR}/cmake/dependency.de265.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/dependency.kvazaar.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/dependency.dav1d.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/dependency.svtav1.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/dependency.de265.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/dependency.kvazaar.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/dependency.dav1d.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/dependency.svtav1.cmake)
 
 
 ExternalProject_Add(HEIF
-    PREFIX ${CMAKE_BINARY_DIR}/heif
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/heif
     URL "https://github.com/strukturag/libheif/releases/download/v1.20.2/libheif-1.20.2.tar.gz"
     URL_MD5 "5d0442f7197a34b7aaf95bdffabb51e9"
-    DOWNLOAD_DIR "${CMAKE_SOURCE_DIR}/dependencies/heif"
+    DOWNLOAD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/heif"
     SOURCE_DIR "${EXTERNALPROJECT_SOURCE_PREFIX}/dependencies/heif/source"
-    BINARY_DIR "${CMAKE_BINARY_DIR}/heif/build"
+    BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/heif/build"
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     UPDATE_COMMAND ""
     PATCH_COMMAND ""
     BUILD_COMMAND ${BUILD_COMMAND_FOR_TARGET} -t heif
     INSTALL_COMMAND ${BUILD_COMMAND_FOR_TARGET} -t install
     CMAKE_ARGS "--preset" "release-noplugins" 
-        "-DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_BINARY_DIR}/heif/install" "-DCMAKE_SHARED_LIBRARY_PREFIX=lib"
+        "-DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR}/heif/install" "-DCMAKE_SHARED_LIBRARY_PREFIX=lib"
         "-DZLIB_ROOT:PATH=${ZLIB_ROOT}"
         "-DWITH_LIBDE265=ON"
         "-DLIBDE265_INCLUDE_DIR:PATH=${LIBDE265_INCLUDE_DIRS}" "-DLIBDE265_LINK_DIRS:PATH=${LIBDE265_LINK_DIRS}"
@@ -58,11 +58,11 @@ target_include_directories(LibHEIF INTERFACE ${SOURCE_DIR}/libheif/api ${BINARY_
 set_property(TARGET HEIF PROPERTY FOLDER "Dependencies")
 
 if (WIN32)
-    set(LibHEIF_INSTALL_LIBRARY ${CMAKE_BINARY_DIR}/heif/install/bin/heif.dll)
+    set(LibHEIF_INSTALL_LIBRARY ${CMAKE_CURRENT_BINARY_DIR}/heif/install/bin/heif.dll)
     set(LibHEIF_INSTALL_TYPE BIN)
     set(LibHEIF_INSTALL_NAME "heif.dll")
 else()
-    set(LibHEIF_INSTALL_LIBRARY ${CMAKE_BINARY_DIR}/heif/install/lib/libheif.so.1.19.7)
+    set(LibHEIF_INSTALL_LIBRARY ${CMAKE_CURRENT_BINARY_DIR}/heif/install/lib/libheif.so.1.19.7)
     set(LibHEIF_INSTALL_TYPE LIB)
     set(LibHEIF_INSTALL_NAME "libheif.so")
 endif()
